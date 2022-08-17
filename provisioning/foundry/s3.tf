@@ -12,6 +12,13 @@ resource "aws_s3_bucket_acl" "foundry" {
   acl    = "public-read-write"
 }
 
+resource "aws_s3_bucket_policy" "foundry" {
+  bucket = aws_s3_bucket.foundry.id
+  policy = templatefile("${path.module}/policies/s3-policy.json", {
+    s3_bucket_arn = aws_s3_bucket.foundry.arn
+  })
+}
+
 resource "aws_s3_bucket_ownership_controls" "foundry" {
   bucket = aws_s3_bucket.foundry.id
 
