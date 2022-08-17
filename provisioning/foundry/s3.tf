@@ -14,7 +14,7 @@ resource "aws_s3_bucket_acl" "foundry" {
 
 resource "aws_s3_bucket_policy" "foundry" {
   bucket = aws_s3_bucket.foundry.id
-  policy = templatefile("${path.module}/policies/s3-policy.json", {
+  policy = templatefile("${path.module}/policies/s3.json", {
     s3_bucket_arn = aws_s3_bucket.foundry.arn
   })
 }
