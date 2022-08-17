@@ -9,7 +9,7 @@ resource "aws_s3_bucket" "foundry" {
 
 resource "aws_s3_bucket_acl" "foundry" {
   bucket = aws_s3_bucket.foundry.id
-  acl    = "public"
+  acl    = "public-read-write"
 }
 
 resource "aws_s3_bucket_ownership_controls" "foundry" {
