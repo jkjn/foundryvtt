@@ -60,3 +60,15 @@ resource "aws_s3_bucket_lifecycle_configuration" "foundry" {
 
   depends_on = [aws_s3_bucket_versioning.foundry]
 }
+
+resource "aws_s3_bucket_cors_configuration" "foundry" {
+  bucket = aws_s3_bucket.foundry.id
+
+  cors_rule {
+    allowed_methods = ["GET", "POST", "HEAD"]
+    allowed_origins = ["*"]
+    allowed_headers = ["*"]
+    expose_headers  = []
+    max_age_seconds = 3000
+  }
+}
