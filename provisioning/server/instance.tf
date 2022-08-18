@@ -4,7 +4,7 @@ resource "aws_instance" "foundry" {
   availability_zone = var.availability_zone
   iam_instance_profile = aws_iam_role.instance_role.name
   key_name = var.key_name
-  security_groups = [
+  vpc_security_group_ids = [
     aws_security_group.foundry_instance.id,
     aws_security_group.efs.id,
     data.aws_security_group.user_access.id
