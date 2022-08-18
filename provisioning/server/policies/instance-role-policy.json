@@ -1,0 +1,21 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:Get*",
+                "s3:Put*",
+                "s3:Delete*",
+                "s3:Head*",
+                "s3:List*"
+            ],
+            "Resource": [
+                "arn:aws:s3:::${config_bucket_id}",
+                "arn:aws:s3:::${config_bucket_id}/*",
+                "arn:aws:s3:::${data_bucket_id}",
+                "arn:aws:s3:::${data_bucket_id}/*"
+            ]
+        }
+    ]
+}

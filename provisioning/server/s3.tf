@@ -1,4 +1,4 @@
-resource "aws_s3_bucket" "foundry" {
+resource "aws_s3_bucket" "foundry_data" {
   bucket = "${var.default_prefix}-foundry-data"
 
   tags = {
@@ -7,36 +7,36 @@ resource "aws_s3_bucket" "foundry" {
   }
 }
 
-resource "aws_s3_bucket_acl" "foundry" {
-  bucket = aws_s3_bucket.foundry.id
+resource "aws_s3_bucket_acl" "foundry_data" {
+  bucket = aws_s3_bucket.foundry_data.id
   acl    = "public-read-write"
 }
 
-resource "aws_s3_bucket_policy" "foundry" {
-  bucket = aws_s3_bucket.foundry.id
+resource "aws_s3_bucket_policy" "foundry_data" {
+  bucket = aws_s3_bucket.foundry_data.id
   policy = templatefile("${path.module}/policies/s3.json", {
-    s3_bucket_arn = aws_s3_bucket.foundry.arn
+    s3_bucket_arn = aws_s3_bucket.foundry_data.arn
   })
 }
 
-resource "aws_s3_bucket_ownership_controls" "foundry" {
-  bucket = aws_s3_bucket.foundry.id
+resource "aws_s3_bucket_ownership_controls" "foundry_data" {
+  bucket = aws_s3_bucket.foundry_data.id
 
   rule {
     object_ownership = "BucketOwnerPreferred"
   }
 }
 
-resource "aws_s3_bucket_versioning" "foundry" {
-  bucket = aws_s3_bucket.foundry.id
+resource "aws_s3_bucket_versioning" "foundry_data" {
+  bucket = aws_s3_bucket.foundry_data.id
   
   versioning_configuration {
     status = "Enabled"
   }
 }
 
-resource "aws_s3_bucket_server_side_encryption_configuration" "foundry" {
-  bucket = aws_s3_bucket.foundry.id
+resource "aws_s3_bucket_server_side_encryption_configuration" "foundry_data" {
+  bucket = aws_s3_bucket.foundry_data.id
 
   rule {
     apply_server_side_encryption_by_default {
@@ -45,8 +45,8 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "foundry" {
   }
 }
 
-resource "aws_s3_bucket_lifecycle_configuration" "foundry" {
-  bucket = aws_s3_bucket.foundry.id
+resource "aws_s3_bucket_lifecycle_configuration" "foundry_data" {
+  bucket = aws_s3_bucket.foundry_data.id
 
   rule {
     id = "data"
@@ -58,11 +58,11 @@ resource "aws_s3_bucket_lifecycle_configuration" "foundry" {
     status = "Enabled"
   }
 
-  depends_on = [aws_s3_bucket_versioning.foundry]
+  depends_on = [aws_s3_bucket_versioning.foundry_data]
 }
 
-resource "aws_s3_bucket_cors_configuration" "foundry" {
-  bucket = aws_s3_bucket.foundry.id
+resource "aws_s3_bucket_cors_configuration" "foundry_data" {
+  bucket = aws_s3_bucket.foundry_data.id
 
   cors_rule {
     allowed_methods = ["GET", "POST", "HEAD"]
