@@ -1,0 +1,38 @@
+- name: install prerequisites
+  apt:
+    update-cache: yes
+    state: latest
+    name: nfs-common
+  become: yes
+
+- name: check if already mounted
+  shell: "df -h | grep /home/foundry/foundryuserdata | wc -l"
+  register: efs_mounted
+
+- name: mount efs
+  block:
+    - name: remove existing path
+      file:
+        path: /home/foundry/foundryuserdata
+        state: absent
+
+    - name: create new path
+      file:
+        path: /home/foundry/foundryuserdata
+        state: directory
+        owner: foundry
+        group: foundry
+
+    - name: get efs dns
+      set_fact:
+        efs_dns: "{{ lookup('aws_ssm', '/foundry/efs_domain_name') }}"
+
+    - name: mount efs
+      shell: "mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport {{ efs_dns }}:/ /home/foundry/foundryuserdata"
+
+    - name: mount efs on startup
+      lineinfile:
+        path: /etc/fstab
+        line: "{{ efs_dns }}:/  /home/foundry/foundryuserdata nfs4  defaults  0 0"
+  become: yes
+  when: efs_mounted.stdout_lines[0] | int < 1

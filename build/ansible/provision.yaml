@@ -1,0 +1,25 @@
+- name: build foundry image
+  hosts: default
+  connection: ssh
+  become_method: sudo
+  remote_user: ubuntu
+  gather_facts: yes
+
+  pre_tasks:
+    - include_role:
+        name: pretasks
+
+  tasks:
+    - include_role:
+        name: configure_filesystem
+    
+    - include_role:
+        name: install_packages
+
+    - include_role:
+        name: install_foundry
+        apply:
+          become_user: foundry
+
+    # - include_role:
+    #     name: configure_proxy

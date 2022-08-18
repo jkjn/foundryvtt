@@ -1,0 +1,25 @@
+- name: create foundry directory
+  file:
+    path: /home/foundry/foundry
+    state: directory
+  register: foundry_dir
+  become: yes
+
+- name: get foundry installation from s3
+  aws_s3:
+    bucket: "{{ lookup('aws_ssm', '/foundry/s3_configuration_bucket' ) }}"
+    object: "/foundry-installer/FoundryVTT-{{ foundry_version }}.zip"
+    dest: "{{ foundry_dir.path }}/FoundryVTT-{{ foundry_version }}.zip"
+    mode: get
+  become: yes
+
+- name: unzip foundry
+  unarchive:
+    src: "{{ foundry_dir.path }}/FoundryVTT-{{ foundry_version }}.zip"
+    dest: "{{ foundry_dir.path }}"
+    remote_src: yes
+  become: yes
+
+- name: set up pm2 to manage foundry
+  shell: pm2 start "node /home/foundry/foundry/resources/app/main.js --dataPath=/home/foundry/foundryuserdata" --name foundry && pm2 save
+  become: yes

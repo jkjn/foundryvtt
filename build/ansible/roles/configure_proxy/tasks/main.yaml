@@ -1,0 +1,5 @@
+- name: template caddy configuration
+  template:
+    src: caddy.j2
+    dest: /etc/caddy/Caddyfile
+  become: yes

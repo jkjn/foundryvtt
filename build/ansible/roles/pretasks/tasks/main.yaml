@@ -1,0 +1,19 @@
+- name: add foundry group
+  group:
+    name: foundry
+  become: yes
+
+- name: add foundry user
+  user:
+    name: foundry
+    groups: 
+      - sudo
+      - foundry
+    create_home: yes
+  become: yes
+
+- name: create tmp dir
+  file:
+    path: /home/ubuntu/tmp
+    state: directory
+  become: yes

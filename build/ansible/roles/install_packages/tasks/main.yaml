@@ -1,0 +1,76 @@
+---
+- name: update existing packages
+  apt:
+    state: latest
+    name: "*"
+  become: yes
+
+- name: get packages
+  apt:
+    state: latest
+    update_cache: yes
+    pkg:
+      - curl
+      - wget
+      - unzip
+      - nano
+      - python3.9-dev
+      - python3-pip
+  become: yes
+
+- name: get node installation script
+  shell: "curl -sL https://deb.nodesource.com/setup_18.x | bash -"
+  args:
+    warn: false
+  become: yes
+
+- name: install key packages
+  apt:
+    state: latest
+    update_cache: yes
+    pkg:
+      - debian-keyring
+      - debian-archive-keyring
+      - apt-transport-https
+  become: yes
+
+- name: get caddy installation script
+  shell: "curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg"
+  args:
+    warn: false
+  become: yes
+
+- name: prepare caddy installation
+  shell: "curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | tee /etc/apt/sources.list.d/caddy-stable.list"
+  args:
+    warn: false
+  become: yes
+
+- name: install node and caddy
+  apt:
+    update_cache: yes
+    state: present
+    pkg: 
+      - nodejs
+      - caddy
+  become: yes
+
+- name: install pm2
+  npm:
+    state: latest
+    global: yes
+    name: pm2
+  become: yes
+
+- name: start pm2
+  shell: env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u ubuntu --hp /home/ubuntu
+  become: yes
+
+- name: install awscli
+  pip:
+    state: latest
+    name: 
+      - awscli
+      - boto3
+      - botocore
+  become: yes
