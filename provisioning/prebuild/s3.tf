@@ -7,9 +7,13 @@ resource "aws_s3_bucket" "configuration" {
   }
 }
 
-resource "aws_s3_bucket_acl" "configuration" {
+resource "aws_s3_bucket_public_access_block" "configuration" {
   bucket = aws_s3_bucket.configuration.id
-  acl    = "private"
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
 }
 
 resource "aws_s3_bucket_ownership_controls" "configuration" {
