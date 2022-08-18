@@ -3,6 +3,11 @@ resource "aws_iam_role" "instance_role" {
   assume_role_policy = file("${path.module}/trust/instance_assume_role.json")
 }
 
+resource "aws_iam_instance_profile" "instance_role" {
+  name = "foundry-server-role"
+  role = aws_iam_role.instance_role.name
+}
+
 resource "aws_iam_role_policy" "instance_role_policy" {
   name = "instance-role-policy"
   role = aws_iam_role.instance_role.id
