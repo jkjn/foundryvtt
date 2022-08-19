@@ -22,4 +22,6 @@
 
 - name: set up pm2 to manage foundry
   shell: pm2 start "node /home/foundry/foundry/resources/app/main.js --dataPath=/home/foundry/foundryuserdata" --name foundry && pm2 save
+  args:
+    chdir: /home/foundry
   become: yes

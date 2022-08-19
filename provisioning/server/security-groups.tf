@@ -27,7 +27,7 @@ resource "aws_security_group" "foundry_instance" {
   }
 
   tags = {
-    "Foundry Instance" = "value"
+    "Name" = "Foundry Instance SG"
   }
 }
 
@@ -55,3 +55,5 @@ resource "aws_security_group" "efs" {
     "Name" = "Foundry EFS"
   }
 }
+
+# security groups to ssm

@@ -1,7 +1,7 @@
 source "amazon-ebs" "ubuntu-foundry" {
   region = "us-east-2"
   availability_zone = "us-east-2a"
-  instance_type  = "t2.small"
+  instance_type  = "t3.micro"
   ami_name = "Foundry Image {{ timestamp }}"
 
   source_ami_filter {
