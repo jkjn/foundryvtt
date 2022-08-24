@@ -8,6 +8,13 @@ data "aws_ami" "foundry" {
   }
 }
 
+data "aws_subnet" "efs" {
+  filter {
+    name = "availability-zone"
+    values = [var.availability_zone]
+  }
+}
+
 data "aws_security_group" "user_access" {
   filter {
     name = "group-name"

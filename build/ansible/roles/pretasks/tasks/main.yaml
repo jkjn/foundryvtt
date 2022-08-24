@@ -10,6 +10,7 @@
       - sudo
       - foundry
     create_home: yes
+    shell: /bin/bash
   become: yes
 
 - name: create tmp dir

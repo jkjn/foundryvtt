@@ -1,6 +1,6 @@
 resource "aws_instance" "foundry" {
   ami = data.aws_ami.foundry.id
-  instance_type = "t3.micro"
+  instance_type = "t3.small"
   availability_zone = var.availability_zone
   iam_instance_profile = aws_iam_role.instance_role.name
   key_name = var.key_name
