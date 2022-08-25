@@ -24,3 +24,8 @@ variable "environment" {
     type = string
     description = "The environment we're deploying in"
 }
+variable "root_dns" {
+    type = string
+    description = "Name of the root DNS"
+    default = null
+}

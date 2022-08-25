@@ -6,3 +6,7 @@ variable "environment" {
     type = string
     description = "The environment to deploy to"
 }
+variable "root_dns" {
+    type = string
+    description = "Root domain name"
+}

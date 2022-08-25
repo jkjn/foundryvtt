@@ -21,3 +21,7 @@ data "aws_security_group" "user_access" {
     values = [var.user_access_security_group_name]
   }
 }
+
+data "aws_ssm_parameter" "app_hostname" {
+  name = "/foundry/app_hostname"
+}

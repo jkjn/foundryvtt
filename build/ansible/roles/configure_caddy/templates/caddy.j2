@@ -1,0 +1,7 @@
+{{ lookup('aws_ssm', '/foundry/app_hostname') }} {
+    reverse_proxy localhost:30000
+    encode zstd gzip
+}
+
+# Refer to the Caddy docs for more information:
+# https://caddyserver.com/docs/caddyfile

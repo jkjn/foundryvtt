@@ -36,6 +36,6 @@ build {
   post-processor "amazon-ami-management" {
     regions = ["us-east-2"]
     identifier = "Foundry Image"
-    keep_releases = 2
+    keep_releases = 1
   }
 }

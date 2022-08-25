@@ -10,7 +10,11 @@ resource "aws_instance" "foundry" {
     data.aws_security_group.user_access.id
   ]
 
+  user_data = file("${path.module}/resources/user_data.sh")
+
   tags = {
     "Name" = "Foundry Instance"
+    "AUTO_DNS_ZONE" = aws_route53_zone.main.id
+    "AUTO_DNS_NAME" = data.aws_ssm_parameter.app_hostname.value
   }
 }
