@@ -2,6 +2,7 @@
   shell: |
     fallocate -l 2G /swapfile
     chmod 600 /swapfile
+    chown foundry:foundry /swapfile
     mkswap /swapfile
   become: yes
 
