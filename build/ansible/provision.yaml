@@ -22,4 +22,9 @@
           become_user: foundry
 
     - include_role:
+        name: configure_swapfile
+        apply:
+          become_user: foundry
+
+    - include_role:
         name: configure_caddy

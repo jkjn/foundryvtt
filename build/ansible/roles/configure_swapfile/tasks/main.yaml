@@ -1,0 +1,18 @@
+- name: create swapfile
+  shell: |
+    fallocate -l 2G /swapfile
+    chmod 600 /swapfile
+    mkswap /swapfile
+  become: yes
+
+- name: update fstab
+  lineinfile:
+    path: /etc/fstab
+    state: present
+    line: /swapfile swap swap defaults 0 0
+  become: yes
+
+- name: enable swap file
+  shell: swapon -a
+  become: yes
+  
